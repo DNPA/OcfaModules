@@ -1,0 +1,6 @@
+This is a new and experimental module.
+Please make sure that  the first line of the
+scripts/skexport.pl script points to the
+correct location of the sleuthkit (>=2.04)
+binaries.2.04)
+binaries.

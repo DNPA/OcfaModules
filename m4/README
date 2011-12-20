@@ -1,0 +1,74 @@
+This is the README file for the script createmodule.sh.
+
+INTRO
+
+The script is a wrapper around some m4 commands. Running the script will
+generate source files which aid in the development of OCFA modules.
+The generated source files and makefile are placed in the proper location in
+the OcfaModules development tree. They contain a class derived from the OcfaModule class and
+also a main(). This means that after compiling the code, you'll have a working module.
+The module will connect on the anycast, register itself etc. The only thing it doesn't do
+is the actual processing of evidence. This is something you have implement by filling
+in the processEvidence() method. This method already contains a few lines of code and
+some hints to get you going. 
+The generated source could be viewed as some sort of 'template' (not as in STL) for OCFA modules. 
+More info on implementing something useful can be found on http://ocfa.wiki.sourceforge.net/how+to+develop
+
+EXAMPLE
+
+Suppose we want to create a module which extracts visited URLs from Internet Explorers's 'index.dat' files.
+We could write the logic for parsing those files ourselves, but there exists already a tool that does this.
+The name of this tool is 'pasco'. A logical thing to do would be to develop a module which uses pasco's
+ability to extract URLs from index.dat files.  
+
+Start the script by running
+
+./createmodule.sh
+
+The script will ask you for a name for the module. In this case, a good name for the module would be
+pasco, or ocfapasco or maybe ieurls. As long as it reflects the functionality of the module which we are
+going to create. Do not use funny characters and try to keep it lowercase (the generated code
+looks nicer like that).
+
+After you have entered the module name you came up with, the script will ask you whether you want to
+create an extractor or a dissector. In this case you would choose an extractor since the module will
+only extract metadata from the evidence (index.dat in this case). Dissectors also derive new evidence
+and the module in this example does not do that.
+
+Now, if everything goes well you should have a subdirectory in OcfaModules/extractor which is named pasco 
+(assuming you named the module 'pasco'). There are also two subdirs in the pasco dir, named src and inc,
+containing the source and header files, resp.
+In OcfaModules/extractor/pasco you should be able to run 'make'. After the module compiled you could
+try 'sudo make install'.
+
+Now have a look at OcfaModules/extractor/pasco/src/pasco.cpp. You should see a method processEvidence().
+<the hard part>
+Here it is up to you. You'll have the filename of the evidence which is submitted to you by the router.
+Do a popen of pasco and parse the output. Use setMeta to store all urls as metadata with the evidence.
+It would be even better if you would take the source code of pasco, turn it into a library and link the module
+to it (this would involve editing the generated Makefile too, of course). Look at other implementations to
+get the idea or read through http://ocfa.wiki.sourceforge.net/how+to+develop.
+</the hard part>
+
+
+RUNNING THE MODULE
+
+The pasco module wuld run just fine. The only problem is, it would not get any evidence routed to it. This is because
+the router does not know which evidence your module is interested in.
+Change user to ocfa and open the rulelist in ./etc (not /etc !). See the router rulelist documentation for the
+syntax of the rules. Try whether the file-command recognizes index.dat files. If so, add a rule based on the mimetype
+of the evidence and set the target to pasco.
+
+Restart the router. From now on, it should send evidence to your module.
+
+ 
+ 
+
+
+
+ 
+
+
+ 
+ 
+

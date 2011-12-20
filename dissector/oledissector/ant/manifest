@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: nl.klpd.tde.ocfamodule.ole2txt.Ole2TxtModule
+Class-Path: OcfaJavaLib.jar

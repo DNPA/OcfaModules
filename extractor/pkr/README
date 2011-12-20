@@ -1,0 +1,2 @@
+Simple wrapper arround: 'gpg --fingerprint --keyring=<storepath>'
+

@@ -1,0 +1,11 @@
+Mailwash uses a perlscript named 'dissectmail.pl' to do its job.
+In order to make dissectmail.pl work, you'll have to
+install:
+
+MailTools
+MIME-tools
+
+These are found in the ./thirdparty directory. 
+You can install from there or use the Mandrake CD's.
+
+You should also make a symlink from /usr/bin/ to dissectmail.pl.

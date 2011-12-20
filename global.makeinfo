@@ -1,0 +1,115 @@
+# !!!!! DONT USE THIS FILE FOR DEVELOPMENT, USE FOR DELOYMENT ONLY !!!!!!
+# Standard stuff.
+#
+SHELL=/bin/sh
+INSTALL=install
+
+#
+# version number this is used to create some directoreis
+#
+VERSION=2.3
+
+#
+# The main  installation directory in which all stuff will be put.
+# shared library files will be put in subdir lib, executables in subdir lib
+# and executables that should be executed from other executables in libexec
+# according to GNU standards this should be called prefix 
+#
+DISTDIR=/usr/local/digiwash
+
+#
+#The flags that are used when compiling.
+#GCCFLAGS=-Wall -pedantic-errors -Werror   -Wno-long-long -DLINUX -Woverloaded-virtual -Wundef -Wconversion -Wsign-compare -Wredundant-decls -W -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE
+
+GCCFLAGS = -W -pedantic-errors -Wno-long-long -Woverloaded-virtual -Wundef -Wsign-compare -Wredundant-decls -Wctor-dtor-privacy  -Wnon-virtual-dtor -Wchar-subscripts  -Wcomment -Wformat -Wmissing-braces -Wparentheses -Wtrigraphs -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfloat-equal -Wendif-labels -Wreturn-type -Wpacked -Wcast-align -Wpointer-arith -Wcast-qual -Wwrite-strings -Wformat-nonliteral -Wformat-security -Wswitch-enum -Wsign-promo -Wreorder -Wconversion -Wshadow -Wunused-parameter -Wold-style-cast
+GCCFLAGS = -W -Wno-long-long
+
+#flags that fail when using the 5 version of the std lib.
+GCCFLAGS_STDLIB6   = 
+#flags that fail on both the current (6) version and older version of the std lib.
+GCCFLAGS_STDLIB_OK =
+
+GCCFLAGS += -Werror
+
+#Now include the OS configuration stuff
+include $(OCFAMODULE_TOP_DIR)/OS.makeinfo
+
+# place where the html doc for this project is put when installing.
+HTML_DOCDIR=$(HTML_PREFIX)/$(PROJECT)
+
+#
+# place where html doc is put when created.
+LOCAL_HTML=doc/generated/html
+
+#
+# defines the location of doxygen
+DOXYGEN=/usr/local/bin/doxygen
+
+#
+#The source dir defines the directory in which you have put your source.
+SRCDIR=src
+INCDIR=inc
+
+#
+# The Build Dir defines the directory in which all newly created stuff should be put.
+#
+BUILDDIR=build
+#Directory in which all test code is located.
+
+TESTDIR=test
+
+# INCFLAGS contains the header files.
+IMPLINCDIR=inc
+INCFLAGS=-I $(INTERFACEDIR) -I$(IMPLINCDIR) -I/usr/lib  -I$(BOOSTINCDIR) 
+MISCLIB=$(OCFALIBDIR)/libocfamisc.la
+TREEGRAPH=$(OCFALIBDIR)/libocfatreegraph.la
+FSLIB=$(OCFALIBDIR)/libocfafs.la
+EVIDENCELIB=$(OCFALIBDIR)/libocfaevidence.la
+FACADELIB=$(OCFALIBDIR)/libocfafacade.la
+MESSAGELIB=$(OCFALIBDIR)/libocfamessage.la
+MODULELIB=$(OCFALIBDIR)/libocfamodule.la
+STORELIB=$(OCFALIBDIR)/libocfastore.la
+OCFALIBS=$(TREEGRAPH) $(MISCLIB) $(FSLIB) $(EVIDENCELIB) $(FACADELIB) $(MESSAGELIB) $(MODULELIB) $(STORELIB)
+
+
+
+# the executable file contains the name of the library that should be created.
+EXEC=$(PROJECT)
+
+
+all: $(PROJECT)
+
+
+# This rules tells Make that in order to make an object file, it should
+# compile the file with the corresponding name in the src directory.
+#
+$(BUILDDIR)/%.lo: $(SRCDIR)/%.cpp $(IMPLINCDIR)/%.hpp
+	if [ ! -d $(BUILDDIR) ]; then mkdir $(BUILDDIR);fi
+	$(LIBTOOL) --tag=CPP --mode=compile g++ -ggdb -c $(GCCFLAGS) $(INCFLAGS) -o $@ $<
+
+$(BUILDDIR)/%.lo: $(SRCDIR)/%.cpp 
+	if [ ! -d $(BUILDDIR) ]; then mkdir $(BUILDDIR);fi
+	$(LIBTOOL) --tag=CPP --mode=compile g++ -ggdb -c $(GCCFLAGS) $(INCFLAGS) -o $@ $<
+
+
+# Target that automagically creates documentation in html and man pages for the source
+# in this project.
+#
+doc: all
+	cp Doxyfile.api Doxyfile
+	$(DOXYGEN)
+	rm Doxyfile
+
+devdoc: all
+	cp Doxyfile.tree Doxyfile
+	$(DOXYGEN)
+	rm Doxyfile
+
+clean: 
+	if [ -d doc/generated ]; then rm -r doc/generated; fi
+	if [ -d build/.libs ]; then rm -rf build/.libs; fi
+	/usr/bin/find build/ -maxdepth 1 -type f -exec rm  \{\} \;
+
+cl:
+	        cvs2cl.pl --fsf -d
+ 

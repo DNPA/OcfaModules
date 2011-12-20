@@ -1,0 +1,6 @@
+#manual magic entry for Outlook express detection
+0       byte    207
+>1      byte    173
+>2      byte    18
+>3      byte    254     application/x-ocfa-outlook-express
+

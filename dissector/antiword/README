@@ -1,0 +1,11 @@
+
+Make sure the following conditions are met before using this module:
+1. Install antiword
+2. Make sure you symlink from /usr/bin/antiword to the actual executable
+3. Make a directory /usr/share/antiword and put the text mapping files there which came
+   with the distribution of antiword.
+
+In the rulelist of the router you can append the following line:
+
+default;DNTCR;mimetype;application/msword;DNTCR;ACT_FORWARD;antiword;
+

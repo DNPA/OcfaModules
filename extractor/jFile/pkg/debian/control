@@ -1,0 +1,6 @@
+Package: ocfajfile
+Version: 0.6.0
+Architecture: i386
+Depends: libmagic-dev
+Maintainer: Klpd <ocfa@dnpa.nl>
+Description: The OCFA file type determination module. 

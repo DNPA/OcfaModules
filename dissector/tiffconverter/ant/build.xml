@@ -1,0 +1,71 @@
+<project name="tiffconverter" basedir="../" default="all">
+
+	<!-- taskdef name="pack" classname="org.sadun.util.ant.Pack"
+	   classpath="lib/pack.jar"/ -->
+    <!-- Project settings -->
+    <property name="project.distname" value="tiffconverter"/>
+    <!-- Local system paths -->
+    <property file="${basedir}/ant/build.properties"/>
+
+    <property name="build.dir" value="build"/>
+	<property name="lib.dir" value="lib"/>
+    <property name="target.jar" value="tiffconverter.jar"/>
+    <!-- define your folder for deployment -->
+    <property name="deploy.dir" value="/usr/local/digiwash/lib"/>
+    <property name="deploy.lib" value="/usr/local/digiwash/lib" /> 
+
+
+    <path id="compile.classpath">
+     
+        <pathelement path="${classpath.external}"/>
+        <pathelement path="${classpath}"/>
+        <pathelement path="${deploy.lib}/OcfaJavaLib.jar" />
+        </path>
+
+
+    <!-- Check timestamp on files -->
+   <target name="prepare">
+        <tstamp/>
+    </target>
+    <!-- Normal build of application -->
+    <target name="compile" depends="prepare">
+       <mkdir dir="${build.dir}" />
+        <mkdir dir="${build.dir}/classes" />
+        <javac srcdir="src" destdir="${build.dir}/classes" debug="true" target="1.5" >
+            <classpath refid="compile.classpath"/>
+        </javac>
+      
+
+    </target>
+
+    <!-- Remove classes directory for clean build -->
+    <target name="clean"
+      description="Prepare for clean build">
+      <delete dir="${build.dir}/classes"/>
+      <mkdir  dir="${build.dir}/classes"/>
+    </target>
+
+    <!-- Build entire project -->
+    <target name="build" depends="prepare,compile"/>
+    <target name="rebuild" depends="clean,prepare,compile"/>
+
+
+
+   
+	<target name="jar" depends="prepare,compile">
+	  <mkdir dir="${build.dir}" />
+      <echo message="jarring to ${build.dir}/${target.jar}" />
+      <jar manifest="ant/manifest"
+      	 basedir="${build.dir}/classes"
+         destfile="${build.dir}/${target.jar}">
+      	
+      </jar>
+	</target>
+    <target name="deploy" depends="jar">
+    	<mkdir dir="${deploy.dir}" />
+        <copy file="${build.dir}/${target.jar}" todir="${deploy.dir}"/>
+     </target>
+    <target name="all" depends="compile, jar" />
+	
+
+</project>

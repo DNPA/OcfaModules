@@ -1,0 +1,8 @@
+# x-ocfa-xml-utf16le
+0     byte     0xff
+>1    byte     0xfe
+>2    byte     0x3c
+>4    byte     0x3f
+>6    byte     0x78
+>8    byte     0x6d
+>10   byte     0x6c     x-ocfa-xmlutf16LE

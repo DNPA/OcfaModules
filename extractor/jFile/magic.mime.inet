@@ -1,0 +1,16 @@
+0	string	SSH-	x-inet/ssh
+#
+0	string	HTTP/1	x-inet/http-reply
+0	string	POST\ /	x-inet/http-post
+0	string	GET\ /	x-inet/http-get
+#
+0	string	+OK	x-inet/pop
+#
+0	string	EHLO	x-inet/smtp
+0	string	HELO	x-inet/smtp
+#
+0	string	drwx	x-inet/ftpdir
+#
+0	string	SIP/	x-inet/sipserver
+0	string	INVITE	x-inet/sipinvite
+

@@ -1,0 +1,55 @@
+OCFAMODULE_TOP_DIR=.
+DISTDIR=/usr/local/digiwash
+include OS.makeinfo
+
+all:
+	if [ $(CONF_OK) ]; then \
+		echo Configuration seems ok; \
+	else \
+		echo Can not build with bad configuration;\
+		exit 1;\
+	fi;
+	for dir in $(SUBTARGETS);\
+	do \
+	  echo building $$dir;\
+	  $(MAKE) -C $$dir all DISTDIR=$(DISTDIR); \
+	  if [ $$? != 0 ]; then \
+            exit 1;\
+	  fi;\
+	done; \
+
+install:
+	if [ ! -d $(INSTALL_SBIN) ]; then mkdir -p $(INSTALL_SBIN); fi ;\
+	cp etc/treemodules-cp $(DISTDIR)/etc/treemodules-cp
+	cp etc/treemodules-no-cp $(DISTDIR)/etc/treemodules-no-cp
+	ln -sf $(DISTDIR)/etc/treemodules-no-cp $(DISTDIR)/etc/treemodules
+	for dir in $(SUBTARGETS);\
+	do \
+	  echo installing $$dir;\
+	  $(MAKE) -C $$dir install DISTDIR=$(DISTDIR); \
+	  if [ $$? != 0 ]; then \
+	    exit 1;\
+	  fi;\
+	done;
+	cp binaries.conf $(DISTDIR)/etc/binaries.conf
+	chmod 755 $(DISTDIR)/etc/binaries.conf
+	chmod 770 /usr/local/digiwash/etc/
+	chmod 770 /var/ocfa/httpd
+	if [ -L $(DISTDIR)/etc/rulelist.csv ]; then \
+	   ln -sf $(DISTDIR)/etc/rulelist.csv.2.3.0 $(DISTDIR)/etc/rulelist.csv; \
+	fi;
+	cp etc/w32modules $(DISTDIR)/etc/w32modules
+	chmod 755 $(DISTDIR)/etc/w32modules
+	chmod 755 $(DISTDIR)/etc/treemodules
+
+clean:
+	for dir in $(SUBTARGETS);\
+	do \
+	  echo cleaning $$dir;\
+	  $(MAKE) -C $$dir clean DISTDIR=$(DISTDIR); \
+	done;
+
+rootinstall: 
+	echo make rootinstall is depricated, use make install instead.
+	exit 1;
+						

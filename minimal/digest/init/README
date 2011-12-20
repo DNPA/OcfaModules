@@ -1,0 +1,38 @@
+This script creates two simple berkeley db binary tree files for quick lookups
+by the digest modules. Currently two digest sources are parsed to create these files:
+
+* kp1.hke   : 	The childpornography hashset of BDE Nijmegen. This is a file that
+              	is basically in hashkeeper format, only the 'comment' field is
+	      	filled with the SHA1 digest, as this is the prefered digest type
+	      	for the OCFA.
+* NSRLFile.txt:	This is the NIST hashset.
+
+The script generates two lookup tables each in its own binary tree berkeleydb file.
+
+* digestdb:	This lookup table maps from SHA1 (future extentions might include maps
+		from MD5 sources also if there are source files parsed that only
+		have MD5 digests available) to a string with the folowing format:
+
+		<source>:<filename>
+
+		The source is currently either "NIST" or "KPNIJMEGEN".
+
+* adinfodb:	This lookup table extends the digest db with some sourcefile specific
+		information. The key used here is : <source>:<digest> and every source
+		can have a different string format for the aditional data mapper to.
+
+NIST:	The nist source has the folowing sting in the values of the adinfodb map:
+
+		<productcode>:<oscode>
+
+		where productcode is an integer value that needs an other table to
+		find the exact product involved, this table will need to be created
+		for the digest module also as it will yield even more metadata that
+		could be relevant for the digest module to add to the evidence meta xml.
+
+KPNIJMEGEN: The BDE Nijmegen source has the 'directory' from the creation tree as value.
+	    This directory structure yields information about what series the file
+	    was part of and what type of immages it pertains.
+
+
+
