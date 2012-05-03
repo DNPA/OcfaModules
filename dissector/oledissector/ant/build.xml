@@ -1,4 +1,4 @@
-<project name="javaluceneindexer" basedir="../" default="all">
+<project name="oledissector" basedir="../" default="all">
 
 	<!-- taskdef name="pack" classname="org.sadun.util.ant.Pack"
 	   classpath="lib/pack.jar"/ -->
@@ -62,16 +62,14 @@
       	 basedir="${build.dir}/classes"
          destfile="${build.dir}/${target.jar}">
       	
-        <zipfileset src="${lib.dir}/poi-3.5-FINAL-20090928.jar"  />
+        <zipfileset src="${lib.dir}/poi-3.7-20101029.jar"  />
         <zipfileset src="${lib.dir}/dom4j-1.6.1.jar" />
         <zipfileset src="${lib.dir}/geronimo-stax-api_1.0_spec-1.0.jar" />
+        <zipfileset src="${lib.dir}/poi-ooxml-schemas-3.7-20101029.jar" />
         <zipfileset src="${lib.dir}/ooxml-schemas-1.0.jar" />
-        <zipfileset src="${lib.dir}/poi-3.5-FINAL-20090928.jar" />
-        <zipfileset src="${lib.dir}/poi-contrib-3.5-FINAL-20090928.jar" />
-        <zipfileset src="${lib.dir}/poi-scratchpad-3.5-FINAL-20090928.jar" />
+        <zipfileset src="${lib.dir}/poi-scratchpad-3.7-20101029.jar" />
+        <zipfileset src="${lib.dir}/poi-ooxml-3.7-20101029.jar" />
         <zipfileset src="${lib.dir}/xmlbeans-2.3.0.jar" />
-        <zipfileset src="${lib.dir}/poi-ooxml-3.5-FINAL-20090928.jar" />
-
       </jar>
 	</target>
     <target name="deploy" depends="jar">

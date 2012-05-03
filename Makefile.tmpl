@@ -20,9 +20,9 @@ all:
 
 install:
 	if [ ! -d $(INSTALL_SBIN) ]; then mkdir -p $(INSTALL_SBIN); fi ;\
-	cp etc/treemodules-cp $(DISTDIR)/etc/treemodules-cp
-	cp etc/treemodules-no-cp $(DISTDIR)/etc/treemodules-no-cp
-	ln -sf $(DISTDIR)/etc/treemodules-no-cp $(DISTDIR)/etc/treemodules
+	cp etc/treemodules-cp $(DISTDIR)/etc/treemodules-cp.example
+	cp etc/treemodules-no-cp $(DISTDIR)/etc/treemodules-no-cp.example
+	#ln -sf $(DISTDIR)/etc/treemodules-no-cp $(DISTDIR)/etc/treemodules
 	for dir in $(SUBTARGETS);\
 	do \
 	  echo installing $$dir;\
@@ -38,9 +38,10 @@ install:
 	if [ -L $(DISTDIR)/etc/rulelist.csv ]; then \
 	   ln -sf $(DISTDIR)/etc/rulelist.csv.2.3.0 $(DISTDIR)/etc/rulelist.csv; \
 	fi;
-	cp etc/w32modules $(DISTDIR)/etc/w32modules
-	chmod 755 $(DISTDIR)/etc/w32modules
-	chmod 755 $(DISTDIR)/etc/treemodules
+	cp etc/w32modules $(DISTDIR)/etc/w32modules.example
+	chmod 755 $(DISTDIR)/etc/w32modules.example
+	chmod 755 $(DISTDIR)/etc/treemodules-cp.example
+	chmod 755 $(DISTDIR)/etc/treemodules-no-cp.example
 
 clean:
 	for dir in $(SUBTARGETS);\

@@ -2,6 +2,7 @@ package nl.klpd.tde.ocfamodule.ole2txt;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map.Entry;
 
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
@@ -49,6 +50,11 @@ public class Ole2TxtModule extends OcfaModule {
 				POIFSFileSystem system = new POIFSFileSystem(stream);
 				processor.setFileSystem(system);
 				oleWalker.processNode(system.getRoot(), evidence);
+				for (Entry<String, String> entry :processor.getMetaMap().entrySet()){
+					
+					evidence.getActiveJob().setMeta(entry.getKey(), entry.getValue());
+				}
+				processor.resetMeta();
 				
 			} catch (OcfaException e) {
 

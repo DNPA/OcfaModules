@@ -14,10 +14,10 @@ GCCFLAGS=-Wall -pedantic-errors -Wno-long-long -D_FILE_OFFSET_BITS=64 -D_LARGEFI
 all: rtf2utf8 processguardian
 $(BUILDDIR)/%.lo: $(SRCDIR)/%.cpp
 	if [ ! -d $(BUILDDIR) ]; then mkdir $(BUILDDIR);fi
-	libtool --tag=CPP g++ -g -c $(GCCFLAGS) -I$(INCDIR) -o $@ $<
+	libtool g++ -g -c $(GCCFLAGS) -I$(INCDIR) -o $@ $<
 
 rtf2utf8: ../../../ipc/build/libocfa.la $(BUILDDIR)/Rtf2Utf8.lo
-	libtool --tag=CPP g++ -g $(LIBS) -o $(BUILDDIR)/rtf2utf8 ../../../ipc/build/libocfa.la $(BUILDDIR)/Rtf2Utf8.lo
+	libtool g++ -g $(LIBS) -o $(BUILDDIR)/rtf2utf8 ../../../ipc/build/libocfa.la $(BUILDDIR)/Rtf2Utf8.lo
 
 
 processguardian: $(SRCDIR)/ProcessGuardian.java

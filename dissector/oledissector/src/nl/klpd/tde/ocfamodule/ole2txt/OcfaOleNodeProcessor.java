@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
+import java.util.HashMap;
 
 import org.apache.poi.POITextExtractor;
 import org.apache.poi.extractor.ExtractorFactory;
@@ -36,6 +37,7 @@ public class OcfaOleNodeProcessor implements
 	private POIFSFileSystem fileSystem;
 	private OutgoingMailBox mailSender;
 	private ModuleInstance routerAddress;
+	private HashMap<String, String> metaMap = new HashMap<String, String>();
 	public OutgoingMailBox getMailSender() {
 		return mailSender;
 	}
@@ -51,7 +53,6 @@ public class OcfaOleNodeProcessor implements
 	public void setRouterAddress(ModuleInstance routerAddress) {
 		this.routerAddress = routerAddress;
 	}
-
 
 	private Repository repository;
 	
@@ -119,7 +120,7 @@ public class OcfaOleNodeProcessor implements
 		EvidenceStoreEntity storeEntity = 
 			repository.createEvidenceStoreEntity(new ByteArrayInputStream(extractor.getText().getBytes()));
 		Evidence evidence = factory.createEvidence(storeEntity.getHandle(), storeEntity.getPair(), "output", 
-				inEvidence, "word");
+				inEvidence, "undefined");
 		evidence.getActiveJob().setMeta("mimetop", "text");
 		evidence.getActiveJob().setMeta("mimetype", "plain/text");
 		evidence.getActiveJob().setMeta("encoding", "utf-8");
@@ -149,15 +150,26 @@ public class OcfaOleNodeProcessor implements
 		
 		if (inValue != null){
 			
-			try {
-				inEvidence.getActiveJob().setMeta(metaName, inValue);
-			} catch (OcfaException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			metaMap.put(metaName, inValue);
 		}
+			
+			
+//			try {
+//				
+//				
+//				//inEvidence.getActiveJob().setMeta(metaName, inValue);
+//			} catch (OcfaException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		
 	}
+
+	public HashMap<String, String> getMetaMap() {
+		return metaMap;
+	}
+
 
 	private void sendEvidenceFromExcel(Entry inNode,
 			Evidence inParentEvidence) throws IOException, OcfaException {
@@ -169,7 +181,7 @@ public class OcfaOleNodeProcessor implements
 			EvidenceStoreEntity storeEntity = 
 				repository.createEvidenceStoreEntity(new ByteArrayInputStream(excel2txt.getSubPageContent(x).getBytes()));
 			Evidence evidence = factory.createEvidence(storeEntity.getHandle(), storeEntity.getPair(), excel2txt.getSubPageName(x), 
-					inParentEvidence, "sheet");
+					inParentEvidence, "undefineds");
 			evidence.getActiveJob().setMeta("size",
 					String.valueOf(excel2txt.getSubPageContent(x).getBytes().length));
 			evidence.getActiveJob().setMeta("mimetop", "text");
@@ -202,6 +214,12 @@ public class OcfaOleNodeProcessor implements
 		message.setMessageType(MessageType.USER);
 		message.setSubject("newevidence");
 		mailSender.sendMessage(message);
+		
+	}
+
+	public void resetMeta() {
+		
+		metaMap.clear();
 		
 	}
 

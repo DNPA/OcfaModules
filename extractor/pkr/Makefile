@@ -8,10 +8,8 @@ OBJFILESLIB=$(BUILDDIR)/Pkr.lo
 GCCFLAGS+= -Wno-deprecated
 EXEC=$(PROJECT)
 
-#
-#Uncomment one of the folowing to select an architecture
 $(PROJECT):  $(OBJFILESLIB)
-	$(LIBTOOL) --tag=CPP --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS)
+	$(LIBTOOL) --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS)
 
 install: all
 	if [ ! -d $(INSTALL_SBIN) ]; then mkdir $(INSTALL_SBIN); fi

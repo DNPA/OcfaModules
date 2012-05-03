@@ -70,7 +70,7 @@ MESSAGELIB=$(OCFALIBDIR)/libocfamessage.la
 MODULELIB=$(OCFALIBDIR)/libocfamodule.la
 STORELIB=$(OCFALIBDIR)/libocfastore.la
 OCFALIBS=$(TREEGRAPH) $(MISCLIB) $(FSLIB) $(EVIDENCELIB) $(FACADELIB) $(MESSAGELIB) $(MODULELIB) $(STORELIB)
-
+#OCFALIBS= -locfatreegraph -locfamisc -locfafs -locfaevidence -locfafacade -locfamessage -locfamodule -locfastore
 
 
 # the executable file contains the name of the library that should be created.

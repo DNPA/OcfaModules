@@ -14,7 +14,7 @@ OBJFILESLIB=$(BUILDDIR)/$1.lo
 EXEC=$1
 
 $(PROJECT):  $(OBJFILESLIB)
-	$(LIBTOOL) --tag=CPP --mode=link  g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS)
+	$(LIBTOOL) --mode=link  g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS)
 
 install: all
 	if [ ! -d $(INSTALL_SBIN) ]; then mkdir $(INSTALL_SBIN); fi

@@ -11,7 +11,7 @@ EXEC=file426
 #
 #Uncomment one of the folowing to select an architecture
 $(PROJECT):  /usr/local/digiwash/inc/magic.h $(OBJFILESLIB) 
-	$(LIBTOOL) --tag=CPP --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS) -L/usr/local/digiwash/lib -lmagic
+	$(LIBTOOL) --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS) -L/usr/local/digiwash/lib -lmagic
 
 
 /usr/local/digiwash/inc/magic.h:

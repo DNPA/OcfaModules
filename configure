@@ -181,7 +181,7 @@ sub iconv_lib_needed {
 sub find_static_lib {
   my $libprefix=shift;
   my $rval;
-  foreach my $libdir ("/usr/lib$libarch","/usr/local/lib$libarch") {
+  foreach my $libdir ("/usr/lib","/usr/local/lib","/usr/lib$libarch","/usr/local/lib$libarch") {
     if (opendir(LIB,$libdir)) {
        while(my $file=readdir(LIB)) {
          my $path="${libdir}/$file";
@@ -192,8 +192,6 @@ sub find_static_lib {
          }
        }
        closedir(LIB);
-    } else {
-      print BOLD, RED, "WARNING", GREEN,": Can not read the $libdir dir\n",RESET;
     }
   }
   unless ($rval) {
@@ -207,7 +205,7 @@ sub find_static_lib {
 sub find_dynamic_lib {
   my $libprefix=shift;
   my $rval;
-  foreach my $libdir ("/usr/lib$libarch","/usr/local/lib$libarch") {
+  foreach my $libdir ("/usr/lib","/usr/local/lib","/usr/lib$libarch","/usr/local/lib$libarch") {
     if (opendir(LIB,$libdir)) {
        while(my $file=readdir(LIB)) {
          my $path="${libdir}/$file";
@@ -218,8 +216,6 @@ sub find_dynamic_lib {
          }
        }
        closedir(LIB);
-    } else {
-      print BOLD, RED, "WARNING", GREEN,": Can not read the $libdir dir\n",RESET;
     }
   }
   unless ($rval) {
@@ -284,6 +280,9 @@ sub generic_config {
      print MAKEINFO "GCCFLAGS += -DPOINTERS_64BIT\n";
      if (-f "/usr/lib64/libc.so") {
         $libarch="64";
+     }
+     if ((-f "/lib/x86_64-linux-gnu/libc.so") || ( -f "/usr/lib/x86_64-linux-gnu/libc.so")) {
+        $libarch="/x86_64-linux-gnu"; #this is a bit of a hack to make things work on ubuntu.
      }
   }
  } elsif ($uname eq "sunos") {

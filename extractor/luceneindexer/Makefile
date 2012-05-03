@@ -12,7 +12,7 @@ EXEC=$(PROJECT)
 #
 #Uncomment one of the folowing to select an architecture
 $(PROJECT):  $(OBJFILESLIB)
-	$(LIBTOOL) --tag=CPP --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS) -lclucene -L/usr/local/lib
+	$(LIBTOOL) --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS) -lclucene -L/usr/local/lib
 
 install: all
 	if [ ! -d $(INSTALL_SBIN) ]; then mkdir $(INSTALL_SBIN); fi
@@ -22,7 +22,7 @@ install: all
 	ln -sf $(DISTDIR)/sbin/luceneindexer $(DISTDIR)/sbin/indexer
 
 test: $(BUILDDIR)/TestTokenizer.lo $(ANALYZEOBJFILES)
-	$(LIBTOOL) --tag=CPP --mode=link g++ -o $(BUILDDIR)/testtokenize $(BUILDDIR)/TestTokenizer.lo $(ANALYZEOBJFILES) -lclucene -L/usr/local/lib
+	$(LIBTOOL) --mode=link g++ -o $(BUILDDIR)/testtokenize $(BUILDDIR)/TestTokenizer.lo $(ANALYZEOBJFILES) -lclucene -L/usr/local/lib
 
 testfile: $(BUILDDIR)/TestFileReader.lo 
-	$(LIBTOOL) --tag=CPP --mode=link g++ -o $(BUILDDIR)/testfileread $(BUILDDIR)/TestFileReader.lo -lclucene -L/usr/local/lib
+	$(LIBTOOL) --mode=link g++ -o $(BUILDDIR)/testfileread $(BUILDDIR)/TestFileReader.lo -lclucene -L/usr/local/lib

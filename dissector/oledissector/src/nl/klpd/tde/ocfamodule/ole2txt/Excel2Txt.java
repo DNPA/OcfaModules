@@ -33,7 +33,7 @@ public class Excel2Txt {
 
 	
 	public Excel2Txt(POIFSFileSystem poifs) throws IOException{
-		this(poifs, poifs.getRoot());		
+		this(poifs, poifs.getRoot()); 		
 	}
 	
 	

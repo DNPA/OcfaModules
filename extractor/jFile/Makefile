@@ -11,7 +11,7 @@ EXEC=jFile
 #
 #Uncomment one of the folowing to select an architecture
 $(PROJECT):  $(OBJFILESLIB)
-	$(LIBTOOL) --tag=CPP --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) -lmagic $(OCFALIBS)
+	$(LIBTOOL) --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) -lmagic $(OCFALIBS)
 
 install: all
 	if [ ! -d $(INSTALL_SBIN) ]; then mkdir $(INSTALL_SBIN); fi

@@ -8,10 +8,8 @@ OBJFILESLIB=$(BUILDDIR)/PostgresIndexer.lo
 GCCFLAGS=
 EXEC=$(PROJECT)
 
-#
-#Uncomment one of the folowing to select an architecture
 $(PROJECT):  $(OBJFILESLIB)
-	$(LIBTOOL) --tag=CPP --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS) $(LIBPQDIR) -lpq
+	$(LIBTOOL) --mode=link g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS) $(LIBPQDIR) -lpq
 
 install: all
 	if [ ! -d $(INSTALL_SBIN) ]; then mkdir $(INSTALL_SBIN); fi

@@ -13,7 +13,7 @@ OBJFILESLIB=$(BUILDDIR)/fivesfaces.lo
 EXEC=fivesfaces
 
 $(PROJECT):  $(OBJFILESLIB)
-	$(LIBTOOL) --tag=CPP --mode=link  g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS) -lcv -lhighgui -lcvaux -lcxcore
+	$(LIBTOOL) --mode=link  g++ -o $(BUILDDIR)/$(EXEC) $(OBJFILESLIB) $(OCFALIBS) -lcv -lhighgui -lcvaux -lcxcore
 
 install: all
 	if [ ! -d $(INSTALL_SBIN) ]; then mkdir $(INSTALL_SBIN); fi
