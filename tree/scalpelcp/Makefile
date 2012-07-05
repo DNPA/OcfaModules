@@ -26,5 +26,5 @@ install: $(PROJECT)
 	$(LIBTOOL) --mode=install cp $(BUILDDIR)/$(PROJECT).la $(INSTALLIB)
 	ln -sf $(INSTALLIB)/$(PROJECT).so $(INSTALLIB)/libcarver.so
 	$(LIBTOOL) --mode=install cp etc/scalpel.conf $(INSTALL_ETC)
-	ln -sf $(DISTDIR)/etc/treemodules-cp $(DISTDIR)/etc/treemodules
+	#ln -sf $(DISTDIR)/etc/treemodules-cp $(DISTDIR)/etc/treemodules
 

@@ -468,7 +468,13 @@ sub template_stuff {
          if ($dependencytype eq "program") {
              my $binpath="";
              my $binname=$name;
-             foreach my $prefix ("/bin/","/sbin/","/usr/bin/","/usr/sbin/","/usr/local/bin/","/usr/local/sbin/") {
+             my @prefixes=("/bin/","/sbin/","/usr/bin/","/usr/sbin/","/usr/local/bin/","/usr/local/sbin/");
+             if (defined $ENV{"JAVA_BINDIR"}) {
+               if ($binname eq "java"){
+                  push(@prefixes,$ENV{"JAVA_BINDIR"} . "/");
+               }
+             }
+             foreach my $prefix (@prefixes) {
                 if (($binpath eq "") && (-f "${prefix}$binname")) {
                    $binpath="${prefix}$binname";
                 }
